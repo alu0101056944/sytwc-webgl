@@ -40,7 +40,7 @@ const indices = [
 
 // 2.- compilation
 
-const getShader = async function (ctxt, sname, shaderType) { 
+const getShader = async function (ctxt, sname, shaderType) {
 
   async function compiling(ctxt, scriptText) {
       const script_text = scriptText.trim();
@@ -60,7 +60,7 @@ const getShader = async function (ctxt, sname, shaderType) {
                   "Resultado de la compilación erróneo: "
                   +comperror);
                   
-      throw error;
+        throw error;
       }
       else if (!shader) {
         let error = new Error(" No se pudo crear un shader para ser compilado");
@@ -74,10 +74,10 @@ const getShader = async function (ctxt, sname, shaderType) {
 
   try {
 
-  const response = await window.fetch(`http://localhost:8000/${sname}`);
-  const scriptText = await response.text();
-  const compShader =  await compiling(ctxt, scriptText);
-  return compShader;
+    const response = await window.fetch(`http://localhost:8000/${sname}`);
+    const scriptText = await response.text();
+    const compShader = await compiling(ctxt, scriptText);
+    return compShader;
 
   } 
   catch (error) {
@@ -259,6 +259,7 @@ function initworld() {
 }
 
 // 7. Bucle del juego
+
 var lastupdate=0
 function gameloop(timestamp) {
  step = timestamp - lastupdate;
@@ -289,3 +290,40 @@ function update(step) {
   mat4.multiply(mvMat,mMat,vMat);
 }
 
+// 9. Draw
+
+function draw () {
+
+  context.clearColor(0.0, 0.0, 1.0, 1.0);
+  context.clearDepth(1.0);
+  context.depthFunc(context.LEQUAL);
+  context.enable(context.DEPTH_TEST);
+  context.enable(context.CULL_FACE);
+  context.clear(context.COLOR_BUFFER_BIT |
+      context.DEPTH_BUFFER_BIT);
+
+  context.viewport(0, 0, context.canvas.width,
+      context.canvas.height);
+
+  context.bindBuffer(context.ARRAY_BUFFER, vertexBuffer);
+  context.enableVertexAttribArray(positionAttribLocation);
+  context.vertexAttribPointer(positionAttribLocation,
+    3, context.FLOAT, false, 0, 0);
+
+  context.bindBuffer(context.ARRAY_BUFFER, colorBuffer);
+  context.enableVertexAttribArray(colorAttribLocation);
+  context.vertexAttribPointer(colorAttribLocation,
+    4, context.FLOAT, false, 0, 0);
+
+  context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, indexBuffer);
+  context.uniformMatrix4fv(projectionUniformLocation, false, pMat);
+  context.uniformMatrix4fv(modelViewUniformLocation, false, mvMat);
+
+  context.drawElements(context.TRIANGLES,
+        indices.length,
+        context.UNSIGNED_SHORT, 0);
+    
+  context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, null);
+  context.bindBuffer(context.ARRAY_BUFFER, null);
+
+}

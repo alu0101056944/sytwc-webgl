@@ -253,6 +253,61 @@ mat4.rotate(mMat, mMat, delta * Math.PI / 180, axis);
 mat4.multiply(mvMat,mMat,vMat);
 }
 
+// 9. draw
+
+function draw () {
+
+    context.clearColor(0.0, 0.0, 1.0, 1.0);
+    context.clearDepth(1.0);
+    context.depthFunc(context.LEQUAL);
+    context.enable(context.DEPTH_TEST);
+    context.enable(context.CULL_FACE);
+    context.clear(context.COLOR_BUFFER_BIT |
+        context.DEPTH_BUFFER_BIT);
+
+    context.viewport(0, 0, context.canvas.width,
+        context.canvas.height);
+
+    context.bindBuffer(context.ARRAY_BUFFER, vertexBuffer);
+context.enableVertexAttribArray(positionAttribLocation);
+context.vertexAttribPointer(positionAttribLocation,
+    3, context.FLOAT, false, 0, 0);
+
+context.bindBuffer(context.ARRAY_BUFFER, colorBuffer);
+context.enableVertexAttribArray(colorAttribLocation);
+context.vertexAttribPointer(colorAttribLocation,
+    4, context.FLOAT, false, 0, 0);
+
+context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, indexBuffer);
+context.uniformMatrix4fv(projectionUniformLocation, false, pMat);
+context.uniformMatrix4fv(modelViewUniformLocation, false, mvMat);
+
+context.drawElements(context.TRIANGLES,
+        indices.length,
+        context.UNSIGNED_SHORT, 0);
+    
+context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, null);
+context.bindBuffer(context.ARRAY_BUFFER, null);
+
+
+}
+
+
+window.addEventListener("load", function (event) {
+init()
+    .then(v => {
+        console.log('Terminada la inicialización ' + v);
+        return initbuffer();
+    })
+    .then(v => {
+        if (v) {
+        console.log('Terminada la inicialización de los buffer');
+        initworld();
+        return window.requestAnimationFrame(gameloop);
+        }
+    });
+});
+
 
 
 
