@@ -9,25 +9,68 @@
 
 export default class Shader {
   #shaderObject = undefined;
+  #shaderType = undefined;
 
   /**
-   * @param {object} context with the webgl methods for shader creation
-   * @param {string} textOfShaderScript 
    * @param {string} shaderType either 'x-shader/x-fragment' or 'x-shader/x-vert'
    */
-  constructor({ compileShader, createShader, shaderSource, },
-      textOfShaderScript, shaderType) {
+  constructor(shaderType) {
     if (shaderType !== 'x-shader/x-fragment' ||
         shaderType !== 'x-shader/x-vert') {
       throw new Error('Invalid shader type passed as parameter.');
     }
-    if (!textOfShaderScript) {
-      throw new Error('Invalid shader text of script');
+  }
+
+  /**
+   * @param {object} context with the webgl methods for shader creation
+   * @param {string} shaderPath
+   */
+  async create(context, shaderPath) {
+    if (!shaderPath || !/([^\/]+\/?)+?/.test(shaderPath)) {
+      throw new Error('Invalid shader path. Did not pass regular' +
+          'expression check.');
+    }
+    if (!context) {
+      throw new Error('Cannot create shader; context is undefined');
     }
 
-    this.#shaderObject = createShader(shaderType);
-    const TRIMMED_SHADER_TEXT = textOfShaderScript.trim();
-    shaderSource(this.#shaderObject, TRIMMED_SHADER_TEXT);
-    compileShader(this.#shaderObject);
+    function compileShader({
+        compileShader,
+        createShader,
+        shaderSource,
+        getShaderParameter,
+        COMPILE_STATUS,
+        getShaderInfoLog,
+      },
+      textOfShaderScript
+    ) {
+      this.#shaderObject = createShader(shaderType);
+      const TRIMMED_SHADER_TEXT = textOfShaderScript.trim();
+      shaderSource(this.#shaderObject, TRIMMED_SHADER_TEXT);
+      compileShader(this.#shaderObject);
+
+      if (!getShaderParameter(this.#shaderObject, COMPILE_STATUS)) {
+        throw new Error('Could not compile shader. ' +
+            getShaderInfoLog(this.#shaderObject));
+      }
+
+      if (!this.#shaderObject) {
+        throw new Error('Could not create the shader.');
+      }
+    }
+
+    try {
+      const response =
+          await window.fetch(`http://localhost:8000/${shaderPath}`);
+
+      const SHADER_TEXT = await response.text();
+      if (!SHADER_TEXT) {
+        throw new Error('Invalid shader text of script');
+      }
+
+      compileShader(context, SHADER_TEXT);
+    } catch (error) {
+      console.log('An error occurred while creating the shader: ' + error);
+    }
   }
 }
