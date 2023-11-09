@@ -34,31 +34,6 @@ export default class Shader {
       throw new Error('Cannot create shader; context is undefined');
     }
 
-    function compileShader({
-        compileShader,
-        createShader,
-        shaderSource,
-        getShaderParameter,
-        COMPILE_STATUS,
-        getShaderInfoLog,
-      },
-      textOfShaderScript
-    ) {
-      this.#shaderObject = createShader(shaderType);
-      const TRIMMED_SHADER_TEXT = textOfShaderScript.trim();
-      shaderSource(this.#shaderObject, TRIMMED_SHADER_TEXT);
-      compileShader(this.#shaderObject);
-
-      if (!getShaderParameter(this.#shaderObject, COMPILE_STATUS)) {
-        throw new Error('Could not compile shader. ' +
-            getShaderInfoLog(this.#shaderObject));
-      }
-
-      if (!this.#shaderObject) {
-        throw new Error('Could not create the shader.');
-      }
-    }
-
     try {
       const response =
           await window.fetch(`http://localhost:8000/${shaderPath}`);
@@ -68,9 +43,34 @@ export default class Shader {
         throw new Error('Invalid shader text of script');
       }
 
-      compileShader(context, SHADER_TEXT);
+      this.#compileShader(context, SHADER_TEXT);
     } catch (error) {
       console.log('An error occurred while creating the shader: ' + error);
+    }
+  }
+
+  #compileShader({
+      createShader,
+      shaderSource,
+      compileShader,
+      getShaderParameter,
+      COMPILE_STATUS,
+      getShaderInfoLog,
+    },
+    textOfShaderScript
+  ) {
+    this.#shaderObject = createShader(shaderType);
+    const TRIMMED_SHADER_TEXT = textOfShaderScript.trim();
+    shaderSource(this.#shaderObject, TRIMMED_SHADER_TEXT);
+    compileShader(this.#shaderObject);
+
+    if (!getShaderParameter(this.#shaderObject, COMPILE_STATUS)) {
+      throw new Error('Could not compile shader. ' +
+          getShaderInfoLog(this.#shaderObject));
+    }
+
+    if (!this.#shaderObject) {
+      throw new Error('Could not create the shader.');
     }
   }
 }
