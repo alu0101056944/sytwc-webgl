@@ -90,21 +90,21 @@ const getShader = async function (ctxt, sname, shaderType) {
 
 async function init() {
 
-async function programToContext(vs, ps) {
-// Creación de un programa shader
-// Inclusión de los programas compilados
-// linkado y carga
-shader = context.createProgram();
-context.attachShader(shader, vs);
-context.attachShader(shader, ps);
-context.linkProgram(shader);
-if (!context.getProgramParameter(shader,
-    context.LINK_STATUS)) {
-    let error = new Error(
-        "Error en la fase de linking");
-    throw error;
+  async function programToContext(vs, ps) {
+  // Creación de un programa shader
+  // Inclusión de los programas compilados
+  // linkado y carga
+  shader = context.createProgram();
+  context.attachShader(shader, vs);
+  context.attachShader(shader, ps);
+  context.linkProgram(shader);
+  if (!context.getProgramParameter(shader,
+      context.LINK_STATUS)) {
+      let error = new Error(
+          "Error en la fase de linking");
+      throw error;
 
-}
+  }
 
 context.useProgram(shader);
 

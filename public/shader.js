@@ -16,7 +16,7 @@ export default class Shader {
    */
   constructor(shaderType) {
     if (shaderType !== 'x-shader/x-fragment' ||
-        shaderType !== 'x-shader/x-vert') {
+        shaderType !== 'x-shader/x-vertex') {
       throw new Error('Invalid shader type passed as parameter.');
     }
   }
