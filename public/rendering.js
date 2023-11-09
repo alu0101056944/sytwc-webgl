@@ -91,41 +91,25 @@ const getShader = async function (ctxt, sname, shaderType) {
 async function init() {
 
   async function programToContext(vs, ps) {
-  // Creación de un programa shader
-  // Inclusión de los programas compilados
-  // linkado y carga
-  shader = context.createProgram();
-  context.attachShader(shader, vs);
-  context.attachShader(shader, ps);
-  context.linkProgram(shader);
-  if (!context.getProgramParameter(shader,
-      context.LINK_STATUS)) {
-      let error = new Error(
-          "Error en la fase de linking");
-      throw error;
+    shader = context.createProgram();
+    context.attachShader(shader, vs);
+    context.attachShader(shader, ps);
+    context.linkProgram(shader);
+    if (!context.getProgramParameter(shader, context.LINK_STATUS)) {
+      throw new Error( "Error en la fase de linking");
+    }
 
+    context.useProgram(shader);
+
+    // Registramos loc de un atributo aVertexPosition
+    // para su uso posterior.
+    positionAttribLocation = context.getAttribLocation(shader, 'aPosition');
+    colorAttribLocation = context.getAttribLocation(shader, 'aColor');
+    projectionUniformLocation = context.getUniformLocation(shader, 'projection');
+    modelViewUniformLocation = context.getUniformLocation(shader, 'modelview');
+
+    return context.getProgramParameter(shader, context.LINK_STATUS);
   }
-
-context.useProgram(shader);
-
-// Registramos loc de un atributo aVertexPosition
-// para su uso posterior.
-positionAttribLocation =
-    context.getAttribLocation(shader,
-        'aPosition');
-colorAttribLocation =
-    context.getAttribLocation(shader,
-        'aColor');
-projectionUniformLocation =
-    context.getUniformLocation(shader,
-        'projection');
-modelViewUniformLocation =
-    context.getUniformLocation(shader,
-        'modelview');
-
-return context.getProgramParameter(shader,
-    context.LINK_STATUS);
-}
 
 const canvas =
     document.getElementById('webgl-canvas');

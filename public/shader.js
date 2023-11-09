@@ -73,4 +73,8 @@ export default class Shader {
       throw new Error('Could not create the shader.');
     }
   }
+
+  init() {
+    
+  }
 }
