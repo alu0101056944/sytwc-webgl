@@ -74,7 +74,12 @@ export default class Shader {
     }
   }
 
-  init() {
-    
+  /**
+   * WebGL2 has a WebGLProgram object that has a vertex shader and a fragment
+   *    shader. This attaches the shader to a WebGLProgram.
+   * @param {object} program 
+   */
+  attachTo(program) {
+    program.attachShader(this.#shaderObject);
   }
 }
