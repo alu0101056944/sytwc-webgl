@@ -49,7 +49,8 @@ export default class Shader {
     }
   }
 
-  #compileShader({
+  #compileShader(
+    {
       createShader,
       shaderSource,
       compileShader,
