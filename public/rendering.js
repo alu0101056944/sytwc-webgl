@@ -144,41 +144,6 @@ var context, shader;
 var positionAttribLocation, colorAttribLocation;
 var projectionUniformLocation,modelViewUniformLocation;
 
-
-async function initbuffer() {
-
-  try {
-
-    // Uniform: buffer de vértices: posiciones
-    vertexBuffer = context.createBuffer();
-    context.bindBuffer(context.ARRAY_BUFFER, vertexBuffer);
-    context.bufferData(context.ARRAY_BUFFER,
-        new Float32Array(vertices), context.STATIC_DRAW);
-
-    // Uniform:  buffer de vértices: colores
-    colorBuffer = context.createBuffer();
-    context.bindBuffer(context.ARRAY_BUFFER, colorBuffer);
-    context.bufferData(context.ARRAY_BUFFER,
-        new Float32Array(colors), context.STATIC_DRAW);
-
-
-    // Index Buffer Object
-    indexBuffer = context.createBuffer();
-    context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, indexBuffer);
-    context.bufferData(context.ELEMENT_ARRAY_BUFFER, 
-        new Uint16Array(indices), context.STATIC_DRAW);
-
-    // Liberamos
-    context.bindBuffer(context.ARRAY_BUFFER, null);
-    context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, null);
-    return true;
-  }
-  catch (error) {
-    throw error;
-  }
-}
-
-
 // 5. Inicializaci'on de bufferes
 
 async function initbuffer() {
