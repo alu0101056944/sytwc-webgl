@@ -47,16 +47,14 @@ function main() {
  * @param {object} matrixInfo with the model, view, projection, modelview
  *    mat4 matrixes.
  */
-function update(
-    context,
-    {
+function update(context, matrixInfo, stepTime) {
+  const {
       modelMatrix,
       viewMatrix,
       projectionMatrix,
       modelViewMatrix,
-    },
-    stepTime
-) {
+    } = matrixInfo;
+
   const FOV = 45 * Math.Pi / 180;
   const RADIUS = context.canvas.innerWidth / context.canvas.innerHeight;
   const NEAR = 0.1;
