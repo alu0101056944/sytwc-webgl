@@ -51,4 +51,8 @@ export default class Program {
     this.#canvasContext.canvas.width = window.innerWidth;
     this.#canvasContext.canvas.height = window.innerHeight;
   }
+
+  getContext() {
+    return this.#canvasContext;
+  }
 }

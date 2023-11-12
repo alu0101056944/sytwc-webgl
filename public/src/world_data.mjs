@@ -40,10 +40,10 @@ export default class WorldData {
     this.#modelMatrix = mat4.create();
     this.#modelViewMatrix= mat4.create();
 
-    this.#init();
+    this.#initialize();
   }
 
-  #init() {
+  #initialize() {
     mat4.translate(this.#modelMatrix, this.#modelMatrix, [0.0, 0.0, -5.0]);
 
     const eye = vec3.create();
@@ -104,5 +104,21 @@ export default class WorldData {
     this.#context.bindBuffer(bufferType, buffer);
     this.#context.bufferData(bufferType, array, dataType);
     this.#context.bindBuffer(bufferType, null);
+  }
+
+  getModelMatrix() {
+    return this.#modelMatrix;
+  }
+
+  getProjectionMatrix() {
+    return this.#projectionMatrix;
+  }
+
+  getViewMatrix() {
+    return this.#viewMatrix;
+  }
+
+  getModelViewMatrix() {
+    return this.#modelViewMatrix;
   }
 }
