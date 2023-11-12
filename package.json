@@ -1,6 +1,6 @@
 {
   "name": "sesion_06_11",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "",
   "main": "httpserver.js",
   "scripts": {
