@@ -53,36 +53,18 @@ function update(
     },
     stepTime
 ) {
-  const VELOCITY = 50 / 1000;
-  const DELTA = (stepTime * VELOCITY) * Math.pi / 180;
-
   const FOV = 45 * Math.Pi / 180;
   const RADIUS = context.canvas.innerWidth / context.canvas.innerHeight;
   const NEAR = 0.1;
   const FAR = undefined;
   mat4.perspective(projectionMatrix, FOV, RADIUS, NEAR, FAR);
 
+  const VELOCITY = 50 / 1000;
+  const DELTA = (stepTime * VELOCITY) * Math.pi / 180;
   const axis = vec3.fromValues(0, 1.0, 0);
   mat4.rotate(modelMatrix, modelMatrix, DELTA * Math.Pi / 180, axis);
 
   mat4.multiply(modelViewMatrix, modelMatrix, viewMatrix);
-}
-
-// 8. update
-
-function update(step) {
-  const vel = 50 / 1000;
-  let delta = (step * vel) % 360;
-      
-  // Preparamos transformaciones
-  const FOV = 45 * Math.PI / 180;
-  const r = context.canvas.clientWidth / context.canvas.clientHeight;
-  const near = 0.1;
-  const far = null;
-  mat4.perspective(pMat, FOV, r, near, far);
-  const axis = vec3.fromValues(0.0, 1.0, 0.0);
-  mat4.rotate(mMat, mMat, delta * Math.PI / 180, axis);
-  mat4.multiply(mvMat,mMat,vMat);
 }
 
 // 9. Draw
