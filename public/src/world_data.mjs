@@ -19,14 +19,44 @@ export default class WorldData {
   #colors = undefined;
   #indexes = undefined;
 
+  #projectionMatrix = undefined;
+  #viewMatrix = undefined;
+  #modelMatrix = undefined;
+  #modelViewMatrix= undefined;
+
   constructor(context) {
     this.#context = context;
+
     this.#vertexBuffer = this.#context.createBuffer();
     this.#colorsBuffer = this.#context.createBuffer();
     this.#indexBuffer = this.#context.createBuffer();
+
     this.#positions = [];
     this.#colors = [];
     this.#indexes = [];
+
+    this.#projectionMatrix = mat4.create();
+    this.#viewMatrix = mat4.create();
+    this.#modelMatrix = mat4.create();
+    this.#modelViewMatrix= mat4.create();
+
+    this.#init();
+  }
+
+  #init() {
+    mat4.translate(this.#modelMatrix, this.#modelMatrix, [0.0, 0.0, -5.0]);
+
+    const eye = vec3.create();
+    eye.set(0.0,0.0,0.0);
+
+    const position = vec3.create();
+    position.set(0.0,0.0,-10.0);
+
+    const up = vec3.create();
+    up.set(0.0,1.0,0.0);
+
+    mat4.lookAt(this.#viewMatrix, eye, position, up);
+    mat4.multiply(this.#modelViewMatrix, this.#modelMatrix,vMat);
   }
 
   /**
