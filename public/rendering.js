@@ -220,7 +220,7 @@ function gameloop(timestamp) {
  
  window.requestAnimationFrame(gameloop);
 
-} 
+}
 
 // 8. update
 
