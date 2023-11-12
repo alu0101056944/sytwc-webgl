@@ -15,7 +15,11 @@ function main() {
     throw new Error('HTML webpage does not have any canvas.');
   }
 
-  const context = allCanvas[0].getContext('webgl2');
+  const canvas = allCanvas[0];
+  const context = canvas.getContext('webgl2');
+  context.canvas.width = window.innerWidth;
+  context.canvas.height = window.innerHeight;
+
   const worldData = new WorldData(context);
 
   let timeSinceLastUpdate = 0;

@@ -16,9 +16,6 @@ export default class Program {
   #vertexShader = undefined;
   #fragmentShader = undefined;
 
-  #canvas = undefined;
-  #canvasContext = undefined;
-
   constructor(vertexShader, fragmentShader) {
     if (!vertexShader || !fragmentShader) {
       throw new Error ('Program did not receive valid shader instances');
@@ -39,20 +36,5 @@ export default class Program {
       throw new Error('Could not link WebGL program. ' +
           context.getProgramInfoLog(this.#program));
     }
-
-    const allCanvas = document.querySelectorAll('canvas');
-    if (allCanvas.length === 0) {
-      throw new Error('Program cannot get canvas; there is no canvas in' +
-          'index.html');
-    }
-
-    this.#canvas = allCanvas.shift();
-    this.#canvasContext = this.#canvas.getContext('webgl2');
-    this.#canvasContext.canvas.width = window.innerWidth;
-    this.#canvasContext.canvas.height = window.innerHeight;
-  }
-
-  getContext() {
-    return this.#canvasContext;
   }
 }
