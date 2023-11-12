@@ -71,6 +71,24 @@ function update(
   mat4.multiply(modelViewMatrix, modelMatrix, viewMatrix);
 }
 
+function draw(context) {
+  const {
+      clearColor,
+      clearDepth,
+      depthFunc,
+      enable,
+      clear,
+    } = context;
+
+  clearColor(0.0, 0.0, 1.0, 1.0);
+  clearDepth(1.0);
+  depthFunc(LEQUAL);
+  enable(DEPTH_TEST);
+  enable(CULL_FACE);
+  clear(COLOR_BUFFER_BIT | DEPTH_BUFFER_BIT);
+
+}
+
 // 9. Draw
 
 function draw () {
