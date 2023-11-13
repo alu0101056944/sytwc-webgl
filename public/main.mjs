@@ -43,3 +43,5 @@ async function main() {
 
   loop(0);
 }
+
+main();
