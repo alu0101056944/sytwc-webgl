@@ -1,4 +1,3 @@
-
 /**
  * @author Marcos Barrios
  * @since 12_11_2023
@@ -7,9 +6,9 @@
 
 'use strict';
 
-import WorldData from 'src/world_data.mjs';
+import { createProgram, createWorldData } from './create_elements.mjs';
 
-function main() {
+async function main() {
   const allCanvas = document.querySelectorAll('canvas');
   if (allCanvas.length > 0) {
     throw new Error('HTML webpage does not have any canvas.');
@@ -20,9 +19,8 @@ function main() {
   context.canvas.width = window.innerWidth;
   context.canvas.height = window.innerHeight;
 
-  const worldData = new WorldData(context);
-
-  // create program
+  const program = await createProgram(context);
+  const worldData = createWorldData(context);
 
   let timeSinceLastUpdate = 0;
   function loop(timestamp) {
@@ -37,7 +35,7 @@ function main() {
       };
     update(context, matrixesInfo, STEP_TIME);
 
-    //draw()
+    draw(context, program, worldData);
     window.requestAnimationFrame(loop);
   }
 
@@ -102,24 +100,30 @@ function draw(context, program, worldData) {
       modelViewUniformLocation
     } = program.getLocationObject();
 
-  bindBuffer(context.ARRAY_BUFFER, worldData.getPositionsBuffer());
+  const {
+      getPositionsBuffer,
+      getColorsBuffer,
+      getIndexesBuffer,
+      getProjectionMatrix,
+      getModelViewMatrix,
+      getIndexes
+    } = worldData;
+
+  bindBuffer(context.ARRAY_BUFFER, getPositionsBuffer());
   enableVertexAttribArray(positionAttribLocation);
   vertexAttribPointer(positionAttribLocation, 3, context.FLOAT, false, 0, 0);
 
-  bindBuffer(context.ARRAY_BUFFER, worldData.getColorsBuffer());
+  bindBuffer(context.ARRAY_BUFFER, getColorsBuffer());
   enableVertexAttribArray(colorAttribLocation);
   vertexAttribPointer(colorAttribLocation, 4, context.FLOAT, false, 0, 0);
 
-  bindBuffer(context.ELEMENT_ARRAY_BUFFER, worldData.getIndexesBuffer());
-  uniformMatrix4fv(projectionUniformLocation, false, worldData.getProjectionMatrix());
-  uniformMatrix4fv(modelViewUniformLocation, false, worldData.getModelViewMatrix);
+  bindBuffer(context.ELEMENT_ARRAY_BUFFER, getIndexesBuffer());
+  uniformMatrix4fv(projectionUniformLocation, false, getProjectionMatrix());
+  uniformMatrix4fv(modelViewUniformLocation, false, getModelViewMatrix());
 
-  drawElements(context.TRIANGLES,
-        worldData.getIndexes().length,
-        context.UNSIGNED_SHORT, 0);
-  context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, null);
-  context.bindBuffer(context.ARRAY_BUFFER, null);
-
+  drawElements(context.TRIANGLES, getIndexes().length, context.UNSIGNED_SHORT, 0);
+  bindBuffer(context.ELEMENT_ARRAY_BUFFER, null);
+  bindBuffer(context.ARRAY_BUFFER, null);
 }
 
 // 9. Draw
