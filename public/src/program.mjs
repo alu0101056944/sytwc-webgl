@@ -37,4 +37,14 @@ export default class Program {
           context.getProgramInfoLog(this.#program));
     }
   }
+
+  getLocationObject(context) {
+    const { getAttribLocation, getUniformLocation } = context;
+    return {
+      positionAttribLocation: getAttribLocation(this.#program, 'aPosition'),
+      colorAttribLocation: getAttribLocation(this.#program, 'aColor'),
+      projectionUniformLocation: getUniformLocation(this.#program, 'projection'),
+      modelViewUniformLocation: getUniformLocation(this.#program, 'modelview')
+    }
+  }
 }

@@ -83,4 +83,5 @@ export default class Shader {
   attachTo(program) {
     program.attachShader(this.#shaderObject);
   }
+
 }

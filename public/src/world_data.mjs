@@ -68,6 +68,14 @@ export default class WorldData {
     this.#positions.concat(newPositions);
   }
 
+  getPositions() {
+    return this.#positions;
+  }
+
+  getPositionsBuffer() {
+    return this.#vertexBuffer;
+  }
+
   /**
    * @param {object} newColors array of arrays of four numbers.
    */
@@ -77,6 +85,14 @@ export default class WorldData {
     this.#colors.concat(newPositions);
   }
 
+  getColors() {
+    return this.#colors;
+  }
+
+  getColorsBuffer() {
+    return this.#colorsBuffer;
+  }
+
   /**
    * @param {object} newIndexes array of arrays of three numbers.
    */
@@ -84,6 +100,14 @@ export default class WorldData {
     this.#bufferTransfer(this.#indexBuffer, this.#context.ELEMENT_ARRAY_BUFFER,
         newIndexes, this.#context.STATIC_DRAW, new Uint32Array(newIndexes));
     this.#indexes.concat(newIndexes);
+  }
+
+  getIndexes() {
+    return this.#indexes;
+  }
+
+  getIndexesBuffer() {
+    return this.#indexBuffer;
   }
 
   #bufferTransfer(buffer, bufferType, data, dataType, array) {

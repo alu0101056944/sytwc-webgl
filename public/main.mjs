@@ -22,6 +22,8 @@ function main() {
 
   const worldData = new WorldData(context);
 
+  // create program
+
   let timeSinceLastUpdate = 0;
   function loop(timestamp) {
     const STEP_TIME = timestamp - timeSinceLastUpdate;
@@ -69,13 +71,19 @@ function update(context, matrixInfo, stepTime) {
   mat4.multiply(modelViewMatrix, modelMatrix, viewMatrix);
 }
 
-function draw(context) {
+function draw(context, program, worldData) {
   const {
       clearColor,
       clearDepth,
       depthFunc,
       enable,
       clear,
+      viewport,
+      bindBuffer,
+      enableVertexAttribArray,
+      vertexAttribPointer,
+      uniformMatrix4fv,
+      drawElements,
     } = context;
 
   clearColor(0.0, 0.0, 1.0, 1.0);
@@ -84,6 +92,33 @@ function draw(context) {
   enable(DEPTH_TEST);
   enable(CULL_FACE);
   clear(COLOR_BUFFER_BIT | DEPTH_BUFFER_BIT);
+
+  viewport(0, 0, context.canvas.width, context.canvas.height);
+
+  const {
+      positionAttribLocation,
+      colorAttribLocation,
+      projectionUniformLocation,
+      modelViewUniformLocation
+    } = program.getLocationObject();
+
+  bindBuffer(context.ARRAY_BUFFER, worldData.getPositionsBuffer());
+  enableVertexAttribArray(positionAttribLocation);
+  vertexAttribPointer(positionAttribLocation, 3, context.FLOAT, false, 0, 0);
+
+  bindBuffer(context.ARRAY_BUFFER, worldData.getColorsBuffer());
+  enableVertexAttribArray(colorAttribLocation);
+  vertexAttribPointer(colorAttribLocation, 4, context.FLOAT, false, 0, 0);
+
+  bindBuffer(context.ELEMENT_ARRAY_BUFFER, worldData.getIndexesBuffer());
+  uniformMatrix4fv(projectionUniformLocation, false, worldData.getProjectionMatrix());
+  uniformMatrix4fv(modelViewUniformLocation, false, worldData.getModelViewMatrix);
+
+  drawElements(context.TRIANGLES,
+        worldData.getIndexes().length,
+        context.UNSIGNED_SHORT, 0);
+  context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, null);
+  context.bindBuffer(context.ARRAY_BUFFER, null);
 
 }
 
