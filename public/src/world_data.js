@@ -8,7 +8,7 @@
 
 'use strict';
 
-export default class WorldData {
+class WorldData {
   #context = undefined;
 
   #vertexBuffer = undefined;

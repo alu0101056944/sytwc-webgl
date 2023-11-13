@@ -1,5 +1,5 @@
 
-export default function draw(context, program, worldData) {
+function draw(context, program, worldData) {
   const {
       clearColor,
       clearDepth,

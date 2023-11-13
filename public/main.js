@@ -6,10 +6,6 @@
 
 'use strict';
 
-import { createProgram, createWorldData } from './create_elements.mjs';
-import update from './update.mjs';
-import draw from './draw.mjs';
-
 async function main() {
   const allCanvas = document.querySelectorAll('canvas');
   if (allCanvas.length > 0) {

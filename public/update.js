@@ -3,7 +3,7 @@
  * @param {object} matrixInfo with the model, view, projection, modelview
  *    mat4 matrixes.
  */
-export default function update(context, matrixInfo, stepTime) {
+function update(context, matrixInfo, stepTime) {
   const {
       modelMatrix,
       viewMatrix,

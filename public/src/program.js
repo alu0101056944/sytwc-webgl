@@ -11,7 +11,7 @@
 
 'use strict';
 
-export default class Program {
+class Program {
   #program = undefined;
   #vertexShader = undefined;
   #fragmentShader = undefined;

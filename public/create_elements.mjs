@@ -1,9 +1,5 @@
 
-import WorldData from 'src/world_data.mjs';
-import Program from './src/program.mjs';
-import Shader from './src/shader.mjs';
-
-export function createWorldData(context) {
+function createWorldData(context) {
   const worldData = new WorldData(context);
   worldData.addPositions([
       -1.0, -1.0, 1.0,
@@ -42,7 +38,7 @@ export function createWorldData(context) {
   return worldData;
 }
 
-export async function createProgram(context) {
+async function createProgram(context) {
   const shaderVertex = new Shader('x-shader/x-vertex');
   await shaderVertex.create(context, 'shaders/shader.vert');
 

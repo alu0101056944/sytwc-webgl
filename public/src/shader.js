@@ -7,7 +7,7 @@
 
 'use strict';
 
-export default class Shader {
+class Shader {
   #shaderObject = undefined;
   #shaderType = undefined;
 
