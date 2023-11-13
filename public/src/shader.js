@@ -15,7 +15,7 @@ class Shader {
    * @param {string} shaderType either 'x-shader/x-fragment' or 'x-shader/x-vert'
    */
   constructor(shaderType) {
-    if (shaderType !== 'x-shader/x-fragment' ||
+    if (shaderType !== 'x-shader/x-fragment' &&
         shaderType !== 'x-shader/x-vertex') {
       throw new Error('Invalid shader type passed as parameter.');
     }
