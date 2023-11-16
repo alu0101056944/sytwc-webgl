@@ -7,7 +7,7 @@
 
 'use strict';
 
-export default class Shader {
+class Shader {
   #shaderObject = undefined;
   #shaderType = undefined;
 
@@ -15,10 +15,11 @@ export default class Shader {
    * @param {string} shaderType either 'x-shader/x-fragment' or 'x-shader/x-vert'
    */
   constructor(shaderType) {
-    if (shaderType !== 'x-shader/x-fragment' ||
+    if (shaderType !== 'x-shader/x-fragment' &&
         shaderType !== 'x-shader/x-vertex') {
       throw new Error('Invalid shader type passed as parameter.');
     }
+    this.#shaderType = shaderType;
   }
 
   /**
@@ -36,7 +37,7 @@ export default class Shader {
 
     try {
       const response =
-          await window.fetch(`http://localhost:8000/${shaderPath}`);
+          await window.fetch(`http://127.0.0.1:8080/${shaderPath}`);
 
       const SHADER_TEXT = await response.text();
       if (!SHADER_TEXT) {
@@ -49,25 +50,22 @@ export default class Shader {
     }
   }
 
-  #compileShader(
-    {
-      createShader,
-      shaderSource,
-      compileShader,
-      getShaderParameter,
-      COMPILE_STATUS,
-      getShaderInfoLog,
-    },
-    textOfShaderScript
-  ) {
-    this.#shaderObject = createShader(shaderType);
-    const TRIMMED_SHADER_TEXT = textOfShaderScript.trim();
-    shaderSource(this.#shaderObject, TRIMMED_SHADER_TEXT);
-    compileShader(this.#shaderObject);
+  #compileShader(context, textOfShaderScript) {
+    if (this.#shaderType === 'x-shader/x-fragment') {
+      this.#shaderObject = context.createShader(context.FRAGMENT_SHADER);
+    } else if (this.#shaderType === 'x-shader/x-vertex') {
+      this.#shaderObject = context.createShader(context.VERTEX_SHADER);
+    } else {
+      throw new Error('Invalid shader type compilation attempt at shader.js');
+    }
 
-    if (!getShaderParameter(this.#shaderObject, COMPILE_STATUS)) {
+    const TRIMMED_SHADER_TEXT = textOfShaderScript.trim();
+    context.shaderSource(this.#shaderObject, TRIMMED_SHADER_TEXT);
+    context.compileShader(this.#shaderObject);
+
+    if (!context.getShaderParameter(this.#shaderObject, context.COMPILE_STATUS)) {
       throw new Error('Could not compile shader. ' +
-          getShaderInfoLog(this.#shaderObject));
+          context.getShaderInfoLog(this.#shaderObject));
     }
 
     if (!this.#shaderObject) {
@@ -80,7 +78,8 @@ export default class Shader {
    *    shader. This attaches the shader to a WebGLProgram.
    * @param {object} program 
    */
-  attachTo(program) {
-    program.attachShader(this.#shaderObject);
+  attachTo(context, program) {
+    context.attachShader(program, this.#shaderObject);
   }
+
 }

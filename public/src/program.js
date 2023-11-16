@@ -11,13 +11,10 @@
 
 'use strict';
 
-export default class Program {
+class Program {
   #program = undefined;
   #vertexShader = undefined;
   #fragmentShader = undefined;
-
-  #canvas = undefined;
-  #canvasContext = undefined;
 
   constructor(vertexShader, fragmentShader) {
     if (!vertexShader || !fragmentShader) {
@@ -28,31 +25,25 @@ export default class Program {
     this.#fragmentShader = fragmentShader;
   }
 
-  initialize() {
+  initialize(context) {
     this.#program = context.createProgram();
 
-    this.#vertexShader.attachTo(this.#program);
-    this.#fragmentShader.attachTo(this.#program);
+    this.#vertexShader.attachTo(context, this.#program);
+    this.#fragmentShader.attachTo(context, this.#program);
 
     context.linkProgram(this.#program);
-    if (!context.getProgramParameter(context.LINK_STATUS)) {
+    if (!context.getProgramParameter(this.#program, context.LINK_STATUS)) {
       throw new Error('Could not link WebGL program. ' +
           context.getProgramInfoLog(this.#program));
     }
-
-    const allCanvas = document.querySelectorAll('canvas');
-    if (allCanvas.length === 0) {
-      throw new Error('Program cannot get canvas; there is no canvas in' +
-          'index.html');
-    }
-
-    this.#canvas = allCanvas.shift();
-    this.#canvasContext = this.#canvas.getContext('webgl2');
-    this.#canvasContext.canvas.width = window.innerWidth;
-    this.#canvasContext.canvas.height = window.innerHeight;
   }
 
-  getContext() {
-    return this.#canvasContext;
+  getLocationObject(context) {
+    return {
+      positionAttribLocation: context.getAttribLocation(this.#program, 'aPosition'),
+      colorAttribLocation: context.getAttribLocation(this.#program, 'aColor'),
+      projectionUniformLocation: context.getUniformLocation(this.#program, 'projection'),
+      modelViewUniformLocation: context.getUniformLocation(this.#program, 'modelview')
+    }
   }
 }

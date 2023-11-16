@@ -8,7 +8,7 @@
 
 'use strict';
 
-export default class WorldData {
+class WorldData {
   #context = undefined;
 
   #vertexBuffer = undefined;
@@ -35,28 +35,28 @@ export default class WorldData {
     this.#colors = [];
     this.#indexes = [];
 
-    this.#projectionMatrix = mat4.create();
-    this.#viewMatrix = mat4.create();
-    this.#modelMatrix = mat4.create();
-    this.#modelViewMatrix= mat4.create();
+    this.#projectionMatrix = glMatrix.mat4.create();
+    this.#viewMatrix = glMatrix.mat4.create();
+    this.#modelMatrix = glMatrix.mat4.create();
+    this.#modelViewMatrix = glMatrix.mat4.create();
 
     this.#initialize();
   }
 
   #initialize() {
-    mat4.translate(this.#modelMatrix, this.#modelMatrix, [0.0, 0.0, -5.0]);
+    glMatrix.mat4.translate(this.#modelMatrix, this.#modelMatrix, [0.0, 0.0, -5.0]);
 
-    const eye = vec3.create();
+    const eye = glMatrix.vec3.create();
     eye.set(0.0,0.0,0.0);
 
-    const position = vec3.create();
+    const position = glMatrix.vec3.create();
     position.set(0.0,0.0,-10.0);
 
-    const up = vec3.create();
+    const up = glMatrix.vec3.create();
     up.set(0.0,1.0,0.0);
 
-    mat4.lookAt(this.#viewMatrix, eye, position, up);
-    mat4.multiply(this.#modelViewMatrix, this.#modelMatrix,vMat);
+    glMatrix.mat4.lookAt(this.#viewMatrix, eye, position, up);
+    glMatrix.mat4.multiply(this.#modelViewMatrix, this.#modelMatrix, this.#viewMatrix);
   }
 
   /**
@@ -68,13 +68,29 @@ export default class WorldData {
     this.#positions.concat(newPositions);
   }
 
+  getPositions() {
+    return this.#positions;
+  }
+
+  getPositionsBuffer() {
+    return this.#vertexBuffer;
+  }
+
   /**
    * @param {object} newColors array of arrays of four numbers.
    */
   addColors(newColors) {
     this.#bufferTransfer(this.#colorsBuffer, this.#context.ARRAY_BUFFER,
         newColors, this.#context.STATIC_DRAW, new Float32Array(newColors));
-    this.#colors.concat(newPositions);
+    this.#colors.concat(newColors);
+  }
+
+  getColors() {
+    return this.#colors;
+  }
+
+  getColorsBuffer() {
+    return this.#colorsBuffer;
   }
 
   /**
@@ -86,8 +102,16 @@ export default class WorldData {
     this.#indexes.concat(newIndexes);
   }
 
+  getIndexes() {
+    return this.#indexes;
+  }
+
+  getIndexesBuffer() {
+    return this.#indexBuffer;
+  }
+
   #bufferTransfer(buffer, bufferType, data, dataType, array) {
-    if (bufferType !== this.#context.ARRAY_BUFFER ||
+    if (bufferType !== this.#context.ARRAY_BUFFER &&
         bufferType !== this.#context.ELEMENT_ARRAY_BUFFER) {
       throw new Error('Invalid data type at world data buffer transfer.');
     }
@@ -97,7 +121,7 @@ export default class WorldData {
     if (dataType !== this.#context.STATIC_DRAW) {
       throw new Error('Non STATIC_DRAW data type at world data buffer transfer.');
     }
-    if (!(array instanceof TypedArray)) {
+    if (!(array instanceof Object.getPrototypeOf(Uint32Array))) {
       throw new Error('Not a valid array type at world data buffer transfer.');
     }
 
