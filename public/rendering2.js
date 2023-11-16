@@ -110,7 +110,7 @@ var slots=[0];
     
     try {
     
-    const response = await window.fetch(`http://localhost:5500/${sname}`);
+    const response = await window.fetch(`http://127.0.0.1:8080/${sname}`);
     const scriptText = await response.text();
     const compShader =  await compiling(ctxt, scriptText);
     return compShader;
@@ -180,7 +180,7 @@ var slots=[0];
     // Load Model
     
     
-    fetch('./models/mesh.json')
+    fetch('./models/box_mesh.json')
         .then((response)=>response.json())
         .then((json)=>{vertices=json.vertexdata; retrievedIndices=json.indexdata; materials=json.materials; });
     
@@ -189,10 +189,10 @@ var slots=[0];
     
     // Shaders
     const vs = await getShader(
-        context, "shaders/shader.vert",
+        context, "shaders/next/shader.vert",
             'x-shader/x-vertex');
     const ps = await getShader(
-        context, "shaders/shader.frag",
+        context, "shaders/next/shader.frag",
             'x-shader/x-fragment');
     return await programToContext(vs, ps);
     
@@ -280,22 +280,22 @@ var slots=[0];
         var lastupdate=0;
         
         function initworld() {
-            pMat = mat4.create();
-            vMat = mat4.create();
-            mMat = mat4.create();
-            mvMat= mat4.create();
-            mat4.translate(mMat,
+            pMat = glMatrix.mat4.create();
+            vMat = glMatrix.mat4.create();
+            mMat = glMatrix.mat4.create();
+            mvMat= glMatrix.mat4.create();
+            glMatrix.mat4.translate(mMat,
                 mMat,
                 [0.0, 0.0, -5.0]);
             var eye,pos,up;
-            eye = vec3.create();
+            eye = glMatrix.vec3.create();
             eye.set(0.0,0.0,0.0);
-            pos = vec3.create();
+            pos = glMatrix.vec3.create();
             pos.set(0.0,0.0,-10.0);
-            up = vec3.create();
+            up = glMatrix.vec3.create();
             up.set(0.0,1.0,0.0);
-            mat4.lookAt(vMat,eye,pos,up);
-            mat4.multiply(mvMat,mMat,vMat);
+            glMatrix.mat4.lookAt(vMat,eye,pos,up);
+            glMatrix.mat4.multiply(mvMat,mMat,vMat);
             
             
         
@@ -327,10 +327,10 @@ var slots=[0];
         const r = context.canvas.clientWidth / context.canvas.clientHeight;
         const near = 0.1;
         const far = null;
-        mat4.perspective(pMat, FOV, r, near, far);
-        const axis = vec3.fromValues(0.0, 1.0, 0.0);
-        mat4.rotate(mMat, mMat, delta * Math.PI / 180, axis);
-        mat4.multiply(mvMat,mMat,vMat);
+        glMatrix.mat4.perspective(pMat, FOV, r, near, far);
+        const axis = glMatrix.vec3.fromValues(0.0, 1.0, 0.0);
+        glMatrix.mat4.rotate(mMat, mMat, delta * Math.PI / 180, axis);
+        glMatrix.mat4.multiply(mvMat,mMat,vMat);
         }
         
         
