@@ -19,6 +19,7 @@ class Shader {
         shaderType !== 'x-shader/x-vertex') {
       throw new Error('Invalid shader type passed as parameter.');
     }
+    this.#shaderType = shaderType;
   }
 
   /**
@@ -36,7 +37,7 @@ class Shader {
 
     try {
       const response =
-          await window.fetch(`http://localhost:8000/${shaderPath}`);
+          await window.fetch(`http://127.0.0.1:8080/${shaderPath}`);
 
       const SHADER_TEXT = await response.text();
       if (!SHADER_TEXT) {
@@ -60,7 +61,7 @@ class Shader {
     },
     textOfShaderScript
   ) {
-    this.#shaderObject = createShader(shaderType);
+    this.#shaderObject = createShader(this.#shaderType);
     const TRIMMED_SHADER_TEXT = textOfShaderScript.trim();
     shaderSource(this.#shaderObject, TRIMMED_SHADER_TEXT);
     compileShader(this.#shaderObject);
