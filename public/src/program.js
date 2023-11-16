@@ -32,7 +32,7 @@ class Program {
     this.#fragmentShader.attachTo(context, this.#program);
 
     context.linkProgram(this.#program);
-    if (!context.getProgramParameter(context.LINK_STATUS)) {
+    if (!context.getProgramParameter(this.#program, context.LINK_STATUS)) {
       throw new Error('Could not link WebGL program. ' +
           context.getProgramInfoLog(this.#program));
     }
