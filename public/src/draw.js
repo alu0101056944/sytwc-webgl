@@ -32,7 +32,7 @@ function draw(context, program, worldData) {
   context.uniformMatrix4fv(modelViewUniformLocation, false,
       worldData.getModelViewMatrix());
 
-  context.drawElements(context.TRIANGLES, getIndexes().length,
+  context.drawElements(context.TRIANGLES, worldData.getIndexes().length,
       context.UNSIGNED_SHORT, 0);
   context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, null);
   context.bindBuffer(context.ARRAY_BUFFER, null);
