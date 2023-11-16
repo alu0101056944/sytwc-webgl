@@ -82,7 +82,7 @@ class WorldData {
   addColors(newColors) {
     this.#bufferTransfer(this.#colorsBuffer, this.#context.ARRAY_BUFFER,
         newColors, this.#context.STATIC_DRAW, new Float32Array(newColors));
-    this.#colors.concat(newPositions);
+    this.#colors.concat(newColors);
   }
 
   getColors() {
