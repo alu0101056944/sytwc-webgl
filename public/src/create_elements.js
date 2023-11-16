@@ -35,6 +35,7 @@ function createWorldData(context) {
       6, 4, 0,
       3, 1, 5
     ]);
+  worldData.freeBuffers();
   return worldData;
 }
 

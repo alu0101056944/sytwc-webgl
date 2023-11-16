@@ -65,7 +65,7 @@ class WorldData {
   addPositions(newPositions) {
     this.#bufferTransfer(this.#vertexBuffer, this.#context.ARRAY_BUFFER,
       newPositions, this.#context.STATIC_DRAW, new Float32Array(newPositions));
-    this.#positions.concat(newPositions);
+    this.#positions.push(...newPositions);
   }
 
   getPositions() {
@@ -82,7 +82,7 @@ class WorldData {
   addColors(newColors) {
     this.#bufferTransfer(this.#colorsBuffer, this.#context.ARRAY_BUFFER,
         newColors, this.#context.STATIC_DRAW, new Float32Array(newColors));
-    this.#colors.concat(newColors);
+    this.#colors.push(...newColors);
   }
 
   getColors() {
@@ -98,8 +98,8 @@ class WorldData {
    */
   addIndexes(newIndexes) {
     this.#bufferTransfer(this.#indexBuffer, this.#context.ELEMENT_ARRAY_BUFFER,
-        newIndexes, this.#context.STATIC_DRAW, new Uint32Array(newIndexes));
-    this.#indexes.concat(newIndexes);
+        newIndexes, this.#context.STATIC_DRAW, new Uint16Array(newIndexes));
+    this.#indexes.push(...newIndexes);
   }
 
   getIndexes() {
@@ -121,13 +121,17 @@ class WorldData {
     if (dataType !== this.#context.STATIC_DRAW) {
       throw new Error('Non STATIC_DRAW data type at world data buffer transfer.');
     }
-    if (!(array instanceof Object.getPrototypeOf(Uint32Array))) {
+    if (!(array instanceof Object.getPrototypeOf(Uint16Array))) {
       throw new Error('Not a valid array type at world data buffer transfer.');
     }
 
     this.#context.bindBuffer(bufferType, buffer);
     this.#context.bufferData(bufferType, array, dataType);
-    this.#context.bindBuffer(bufferType, null);
+  }
+  
+  freeBuffers() {
+    this.#context.bindBuffer(this.#context.ELEMENT_ARRAY_BUFFER, null);
+    this.#context.bindBuffer(this.#context.ARRAY_BUFFER, null);
   }
 
   getModelMatrix() {

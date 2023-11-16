@@ -25,13 +25,13 @@ async function main() {
   let timeSinceLastUpdate = 0;
   function loop(timestamp) {
     const STEP_TIME = timestamp - timeSinceLastUpdate;
-    timeSinceLastUpdate = STEP_TIME;
+    timeSinceLastUpdate = timestamp;
 
     const matrixesInfo = {
         modelMatrix: worldData.getModelMatrix(),
         viewMatrix: worldData.getViewMatrix(),
         projectionMatrix: worldData.getProjectionMatrix(),
-        modelViewMatrix: worldData.getModelMatrix(),
+        modelViewMatrix: worldData.getModelViewMatrix(),
       };
     update(context, matrixesInfo, STEP_TIME);
 
