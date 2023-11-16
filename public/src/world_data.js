@@ -121,7 +121,7 @@ class WorldData {
     if (dataType !== this.#context.STATIC_DRAW) {
       throw new Error('Non STATIC_DRAW data type at world data buffer transfer.');
     }
-    if (!(array instanceof TypedArray)) {
+    if (!(array instanceof Object.getPrototypeOf(Uint32Array))) {
       throw new Error('Not a valid array type at world data buffer transfer.');
     }
 
