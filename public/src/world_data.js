@@ -111,7 +111,7 @@ class WorldData {
   }
 
   #bufferTransfer(buffer, bufferType, data, dataType, array) {
-    if (bufferType !== this.#context.ARRAY_BUFFER ||
+    if (bufferType !== this.#context.ARRAY_BUFFER &&
         bufferType !== this.#context.ELEMENT_ARRAY_BUFFER) {
       throw new Error('Invalid data type at world data buffer transfer.');
     }
