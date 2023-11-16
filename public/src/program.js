@@ -28,8 +28,8 @@ class Program {
   initialize(context) {
     this.#program = context.createProgram();
 
-    this.#vertexShader.attachTo(this.#program);
-    this.#fragmentShader.attachTo(this.#program);
+    this.#vertexShader.attachTo(context, this.#program);
+    this.#fragmentShader.attachTo(context, this.#program);
 
     context.linkProgram(this.#program);
     if (!context.getProgramParameter(context.LINK_STATUS)) {

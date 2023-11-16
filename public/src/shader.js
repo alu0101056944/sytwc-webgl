@@ -78,8 +78,8 @@ class Shader {
    *    shader. This attaches the shader to a WebGLProgram.
    * @param {object} program 
    */
-  attachTo(program) {
-    program.attachShader(this.#shaderObject);
+  attachTo(context, program) {
+    context.attachShader(program, this.#shaderObject);
   }
 
 }
