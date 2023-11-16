@@ -7,15 +7,10 @@
 'use strict';
 
 async function main() {
-  // const allCanvas = document.querySelectorAll('canvas');
-  // if (allCanvas.length > 0) {
-  //   throw new Error('HTML webpage does not have any canvas.');
-  // }
-
   const canvas = document.getElementById('webgl-canvas');
   const context = canvas.getContext('webgl2');
-  context.canvas.width = window.innerWidth;
-  context.canvas.height = window.innerHeight;
+  context.canvas.width = 800;
+  context.canvas.height = 600;
 
   const program = await createProgram(context);
   program.initialize(context);

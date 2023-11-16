@@ -1,6 +1,6 @@
 
 function draw(context, program, worldData) {
-  context.clearColor(0.0, 0.0, 1.0, 1.0);
+  context.clearColor(0.0, 1.0, 0.0, 1.0);
   context.clearDepth(1.0);
   context.depthFunc(context.LEQUAL);
   context.enable(context.DEPTH_TEST);
