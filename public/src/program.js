@@ -36,6 +36,8 @@ class Program {
       throw new Error('Could not link WebGL program. ' +
           context.getProgramInfoLog(this.#program));
     }
+
+    context.useProgram(this.#program);
   }
 
   getLocationObject(context) {
