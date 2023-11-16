@@ -1,6 +1,9 @@
 
 // 1.-
 
+const mat4 = glMatrix.mat4;
+const vec3 = glMatrix.vec3;
+
 const vertices = [
     -1.0, -1.0, 1.0,
     -1.0, 1.0, 1.0,
@@ -74,7 +77,7 @@ const getShader = async function (ctxt, sname, shaderType) {
 
   try {
 
-    const response = await window.fetch(`http://localhost:8000/${sname}`);
+    const response = await window.fetch(`http://127.0.0.1:8080/${sname}`);
     const scriptText = await response.text();
     const compShader = await compiling(ctxt, scriptText);
     return compShader;
@@ -274,5 +277,11 @@ function draw () {
     
   context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, null);
   context.bindBuffer(context.ARRAY_BUFFER, null);
-
 }
+
+(async () => {
+  await init();
+  await initbuffer();
+  await initworld();
+  gameloop(0);
+})();
