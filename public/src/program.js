@@ -39,12 +39,11 @@ class Program {
   }
 
   getLocationObject(context) {
-    const { getAttribLocation, getUniformLocation } = context;
     return {
-      positionAttribLocation: getAttribLocation(this.#program, 'aPosition'),
-      colorAttribLocation: getAttribLocation(this.#program, 'aColor'),
-      projectionUniformLocation: getUniformLocation(this.#program, 'projection'),
-      modelViewUniformLocation: getUniformLocation(this.#program, 'modelview')
+      positionAttribLocation: context.getAttribLocation(this.#program, 'aPosition'),
+      colorAttribLocation: context.getAttribLocation(this.#program, 'aColor'),
+      projectionUniformLocation: context.getUniformLocation(this.#program, 'projection'),
+      modelViewUniformLocation: context.getUniformLocation(this.#program, 'modelview')
     }
   }
 }
