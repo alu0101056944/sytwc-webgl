@@ -38,7 +38,7 @@ class WorldData {
     this.#projectionMatrix = glMatrix.mat4.create();
     this.#viewMatrix = glMatrix.mat4.create();
     this.#modelMatrix = glMatrix.mat4.create();
-    this.#modelViewMatrix= glMatrix.mat4.create();
+    this.#modelViewMatrix = glMatrix.mat4.create();
 
     this.#initialize();
   }

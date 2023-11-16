@@ -16,28 +16,24 @@ function draw(context, program, worldData) {
       modelViewUniformLocation
     } = program.getLocationObject(context);
 
-  const {
-      getPositionsBuffer,
-      getColorsBuffer,
-      getIndexesBuffer,
-      getProjectionMatrix,
-      getModelViewMatrix,
-      getIndexes
-    } = worldData;
-
-  context.bindBuffer(context.ARRAY_BUFFER, getPositionsBuffer());
+  context.bindBuffer(context.ARRAY_BUFFER, worldData.getPositionsBuffer());
   context.enableVertexAttribArray(positionAttribLocation);
-  context.vertexAttribPointer(positionAttribLocation, 3, context.FLOAT, false, 0, 0);
+  context.vertexAttribPointer(positionAttribLocation, 3, context.FLOAT, false, 0,
+      0);
 
-  context.bindBuffer(context.ARRAY_BUFFER, getColorsBuffer());
+  context.bindBuffer(context.ARRAY_BUFFER, worldData.getColorsBuffer());
   context.enableVertexAttribArray(colorAttribLocation);
-  context.vertexAttribPointer(colorAttribLocation, 4, context.FLOAT, false, 0, 0);
+  context.vertexAttribPointer(colorAttribLocation, 4, context.FLOAT, false, 0,
+      0);
 
-  context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, getIndexesBuffer());
-  context.uniformMatrix4fv(projectionUniformLocation, false, getProjectionMatrix());
-  context.uniformMatrix4fv(modelViewUniformLocation, false, getModelViewMatrix());
+  context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, worldData.getIndexesBuffer());
+  context.uniformMatrix4fv(projectionUniformLocation, false,
+      worldData.getProjectionMatrix());
+  context.uniformMatrix4fv(modelViewUniformLocation, false,
+      worldData.getModelViewMatrix());
 
-  context.drawElements(context.TRIANGLES, getIndexes().length, context.UNSIGNED_SHORT, 0);
+  context.drawElements(context.TRIANGLES, getIndexes().length,
+      context.UNSIGNED_SHORT, 0);
   context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, null);
   context.bindBuffer(context.ARRAY_BUFFER, null);
 }
