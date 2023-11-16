@@ -25,7 +25,7 @@ async function main() {
   let timeSinceLastUpdate = 0;
   function loop(timestamp) {
     const STEP_TIME = timestamp - timeSinceLastUpdate;
-    timeSinceLastUpdate = STEP_TIME;
+    timeSinceLastUpdate = timestamp;
 
     const matrixesInfo = {
         modelMatrix: worldData.getModelMatrix(),
