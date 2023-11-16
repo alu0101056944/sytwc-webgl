@@ -13,9 +13,9 @@ function update(context, matrixInfo, stepTime) {
 
   const VELOCITY = 50 / 1000;
   const DELTA = (stepTime * VELOCITY) % 360;
-  const axis = glMatrix.vec3.fromValues(0, 1.0, 0);
+  const axis = glMatrix.vec3.fromValues(0.0, 1.0, 0.0);
   glMatrix.mat4.rotate(matrixInfo.modelMatrix, matrixInfo.modelMatrix,
-      DELTA * Math.Pi / 180, axis);
+      DELTA * Math.PI / 180, axis);
 
   glMatrix.mat4.multiply(matrixInfo.modelViewMatrix, matrixInfo.modelMatrix,
       matrixInfo.viewMatrix);
