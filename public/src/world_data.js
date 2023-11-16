@@ -35,28 +35,28 @@ class WorldData {
     this.#colors = [];
     this.#indexes = [];
 
-    this.#projectionMatrix = mat4.create();
-    this.#viewMatrix = mat4.create();
-    this.#modelMatrix = mat4.create();
-    this.#modelViewMatrix= mat4.create();
+    this.#projectionMatrix = glMatrix.mat4.create();
+    this.#viewMatrix = glMatrix.mat4.create();
+    this.#modelMatrix = glMatrix.mat4.create();
+    this.#modelViewMatrix= glMatrix.mat4.create();
 
     this.#initialize();
   }
 
   #initialize() {
-    mat4.translate(this.#modelMatrix, this.#modelMatrix, [0.0, 0.0, -5.0]);
+    glMatrix.mat4.translate(this.#modelMatrix, this.#modelMatrix, [0.0, 0.0, -5.0]);
 
-    const eye = vec3.create();
+    const eye = glMatrix.vec3.create();
     eye.set(0.0,0.0,0.0);
 
-    const position = vec3.create();
+    const position = glMatrix.vec3.create();
     position.set(0.0,0.0,-10.0);
 
-    const up = vec3.create();
+    const up = glMatrix.vec3.create();
     up.set(0.0,1.0,0.0);
 
-    mat4.lookAt(this.#viewMatrix, eye, position, up);
-    mat4.multiply(this.#modelViewMatrix, this.#modelMatrix,vMat);
+    glMatrix.mat4.lookAt(this.#viewMatrix, eye, position, up);
+    glMatrix.mat4.multiply(this.#modelViewMatrix, this.#modelMatrix, this.#viewMatrix);
   }
 
   /**
