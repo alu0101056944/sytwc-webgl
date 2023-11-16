@@ -132,10 +132,10 @@ if (!context) {
     throw error;
 }
 const vs = await getShader(
-    context, "shaders/shader.vert",
+    context, "shaders/basic/shader.vert",
         'x-shader/x-vertex');
 const ps = await getShader(
-    context, "shaders/shader.frag",
+    context, "shaders/basic/shader.frag",
         'x-shader/x-fragment');
 return await programToContext(vs, ps);
 
