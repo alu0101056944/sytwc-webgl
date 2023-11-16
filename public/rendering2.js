@@ -297,7 +297,8 @@ var slots=[0];
             glMatrix.mat4.lookAt(vMat,eye,pos,up);
             glMatrix.mat4.multiply(mvMat,mMat,vMat);
             
-            
+            if(materials.length>1)
+                materials.shift(); // Discard default
         
             
         }
@@ -354,21 +355,25 @@ var slots=[0];
             context.bindVertexArray(vao);
             context.uniformMatrix4fv(modelViewUniformLocation, false, mvMat);
             
-            if(materials.length>1)
-                materials.shift(); // Discard default
+            var int_start = 0;
+            var count = 0;
             materials.forEach(function(mat)
             {
             
+            // tiene que dibujar los indices cada uno con la info de su material.
+            
             // Update diffuse_color
             let diffuse=mat.diffuse_color;
-            console.log(diffuse);
+            // console.log(diffuse);
             context.uniform3f(diffuseColorUniformLocation,diffuse[0],diffuse[1],diffuse[2]);
     
+            if ()
             context.drawElements(context.TRIANGLES,
                 indices.length,
-                context.UNSIGNED_SHORT, 0);
+                context.UNSIGNED_SHORT,
+                int_start);
             });
-        
+            count++;
     
             
         
