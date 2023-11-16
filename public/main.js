@@ -18,6 +18,8 @@ async function main() {
   context.canvas.height = window.innerHeight;
 
   const program = await createProgram(context);
+  program.initialize();
+
   const worldData = createWorldData(context);
 
   let timeSinceLastUpdate = 0;
