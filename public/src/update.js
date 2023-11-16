@@ -17,6 +17,9 @@ function update(context, matrixInfo, stepTime) {
   glMatrix.mat4.rotate(matrixInfo.modelMatrix, matrixInfo.modelMatrix,
       DELTA * Math.PI / 180, axis);
 
+  // console.log('model: ' + matrixInfo.modelMatrix);
   glMatrix.mat4.multiply(matrixInfo.modelViewMatrix, matrixInfo.modelMatrix,
       matrixInfo.viewMatrix);
+  // console.log('modelView: ' + matrixInfo.modelViewMatrix);
+  // console.log('view: ' + matrixInfo.viewMatrix);
 }

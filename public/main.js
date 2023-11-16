@@ -31,7 +31,7 @@ async function main() {
         modelMatrix: worldData.getModelMatrix(),
         viewMatrix: worldData.getViewMatrix(),
         projectionMatrix: worldData.getProjectionMatrix(),
-        modelViewMatrix: worldData.getModelMatrix(),
+        modelViewMatrix: worldData.getModelViewMatrix(),
       };
     update(context, matrixesInfo, STEP_TIME);
 
