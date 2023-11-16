@@ -58,10 +58,18 @@ class Shader {
       getShaderParameter,
       COMPILE_STATUS,
       getShaderInfoLog,
+      ...context
     },
     textOfShaderScript
   ) {
-    this.#shaderObject = createShader(this.#shaderType);
+    if (this.#shaderType === 'x-shader/x-fragment') {
+      this.#shaderObject = createShader(context.FRAGMENT_SHADER);
+    } else if (this.#shaderType === 'x-shader/x-vertex') {
+      this.#shaderObject = createShader(context.VERTEX_SHADER);
+    } else {
+      throw new Error('Invalid shader type compilation attempt at shader.js');
+    }
+
     const TRIMMED_SHADER_TEXT = textOfShaderScript.trim();
     shaderSource(this.#shaderObject, TRIMMED_SHADER_TEXT);
     compileShader(this.#shaderObject);
