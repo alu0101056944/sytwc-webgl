@@ -50,33 +50,22 @@ class Shader {
     }
   }
 
-  #compileShader(
-    {
-      createShader,
-      shaderSource,
-      compileShader,
-      getShaderParameter,
-      COMPILE_STATUS,
-      getShaderInfoLog,
-      ...context
-    },
-    textOfShaderScript
-  ) {
+  #compileShader(context, textOfShaderScript) {
     if (this.#shaderType === 'x-shader/x-fragment') {
-      this.#shaderObject = createShader(context.FRAGMENT_SHADER);
+      this.#shaderObject = context.createShader(context.FRAGMENT_SHADER);
     } else if (this.#shaderType === 'x-shader/x-vertex') {
-      this.#shaderObject = createShader(context.VERTEX_SHADER);
+      this.#shaderObject = context.createShader(context.VERTEX_SHADER);
     } else {
       throw new Error('Invalid shader type compilation attempt at shader.js');
     }
 
     const TRIMMED_SHADER_TEXT = textOfShaderScript.trim();
-    shaderSource(this.#shaderObject, TRIMMED_SHADER_TEXT);
-    compileShader(this.#shaderObject);
+    context.shaderSource(this.#shaderObject, TRIMMED_SHADER_TEXT);
+    context.compileShader(this.#shaderObject);
 
-    if (!getShaderParameter(this.#shaderObject, COMPILE_STATUS)) {
+    if (!context.getShaderParameter(this.#shaderObject, context.COMPILE_STATUS)) {
       throw new Error('Could not compile shader. ' +
-          getShaderInfoLog(this.#shaderObject));
+          context.getShaderInfoLog(this.#shaderObject));
     }
 
     if (!this.#shaderObject) {
