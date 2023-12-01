@@ -355,29 +355,17 @@ var slots=[0];
             context.bindVertexArray(vao);
             context.uniformMatrix4fv(modelViewUniformLocation, false, mvMat);
             
-            var int_start = 0;
-            var count = 0;
-            materials.forEach(function(mat)
-            {
-            
-            // tiene que dibujar los indices cada uno con la info de su material.
-            
-            // Update diffuse_color
-            let diffuse=mat.diffuse_color;
-            // console.log(diffuse);
-            context.uniform3f(diffuseColorUniformLocation,diffuse[0],diffuse[1],diffuse[2]);
-    
-            if ()
-            context.drawElements(context.TRIANGLES,
-                indices.length,
-                context.UNSIGNED_SHORT,
-                int_start);
-            });
-            count++;
-    
-            
+            materials.forEach(function(mat) {
+                // Update diffuse_color
+                let diffuse=mat.diffuse_color;
+                // console.log(diffuse);
+                context.uniform3f(diffuseColorUniformLocation,diffuse[0],diffuse[1],diffuse[2]);
         
-        
+                context.drawElements(context.TRIANGLES,
+                    indices.length,
+                    context.UNSIGNED_SHORT,
+                    slots[count] * Uint16Array.BYTES_PER_ELEMENT);
+                });
         }
         
         
