@@ -25,7 +25,7 @@ class Program {
     this.#fragmentShader = fragmentShader;
   }
 
-  initialize(context) {
+  create(context) {
     this.#program = context.createProgram();
 
     this.#vertexShader.attachTo(context, this.#program);

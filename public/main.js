@@ -13,7 +13,7 @@ async function main() {
   context.canvas.height = 600;
 
   const program = await createProgram(context);
-  program.initialize(context);
+  program.create(context);
 
   const worldData = createWorldData(context);
 
@@ -21,15 +21,12 @@ async function main() {
   function loop(timestamp) {
     const STEP_TIME = timestamp - timeSinceLastUpdate;
     timeSinceLastUpdate = timestamp;
-
-    const matrixesInfo = {
+    update(context, {
         modelMatrix: worldData.getModelMatrix(),
         viewMatrix: worldData.getViewMatrix(),
         projectionMatrix: worldData.getProjectionMatrix(),
         modelViewMatrix: worldData.getModelViewMatrix(),
-      };
-    update(context, matrixesInfo, STEP_TIME);
-
+      }, STEP_TIME);
     draw(context, program, worldData);
     window.requestAnimationFrame(loop);
   }
