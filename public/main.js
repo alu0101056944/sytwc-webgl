@@ -17,12 +17,7 @@ async function main() {
   const loop = (timestamp) => {
     const STEP_TIME = timestamp - timeSinceLastUpdate;
     timeSinceLastUpdate = timestamp;
-    update(context, {
-          modelMatrix: worldData.getModelMatrix(),
-          viewMatrix: worldData.getViewMatrix(),
-          projectionMatrix: worldData.getProjectionMatrix(),
-          modelViewMatrix: worldData.getModelViewMatrix(),
-        }, STEP_TIME);
+    update(context, worldData.getMatrixes(), STEP_TIME);
     draw(context, program, worldData);
     window.requestAnimationFrame(loop);
   }

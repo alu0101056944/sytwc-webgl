@@ -146,4 +146,13 @@ class WorldData {
   getModelViewMatrix() {
     return this.#modelViewMatrix;
   }
+
+  getMatrixes() {
+    return {
+      modelMatrix: this.getModelMatrix(),
+      viewMatrix: this.getViewMatrix(),
+      projectionMatrix: this.getProjectionMatrix(),
+      modelViewMatrix: this.getModelViewMatrix(),
+    }
+  }
 }
