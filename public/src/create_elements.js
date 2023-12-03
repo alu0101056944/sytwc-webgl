@@ -46,7 +46,7 @@ async function createProgram(context) {
   const shaderFragment = new Shader('x-shader/x-fragment');
   await shaderFragment.create(context, 'shaders/basic/shader.frag');
 
-  const program = new Program(shaderVertex, shaderFragment)
+  const program = new ShaderProgram(shaderVertex, shaderFragment)
   program.create(context);
   return program;
 }

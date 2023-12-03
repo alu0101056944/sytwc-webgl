@@ -11,7 +11,7 @@
 
 'use strict';
 
-class Program {
+class ShaderProgram {
   #program = undefined;
   #vertexShader = undefined;
   #fragmentShader = undefined;

@@ -6,10 +6,10 @@
 function update(context, matrixInfo, stepTime) {
 
   const FOV = 45 * Math.PI / 180;
-  const RADIUS = context.canvas.clientWidth / context.canvas.clientHeight;
+  const ASPECT_RATIO = context.canvas.clientWidth / context.canvas.clientHeight;
   const NEAR = 0.1;
   const FAR = null;
-  glMatrix.mat4.perspective(matrixInfo.projectionMatrix, FOV, RADIUS, NEAR, FAR);
+  glMatrix.mat4.perspective(matrixInfo.projectionMatrix, FOV, ASPECT_RATIO, NEAR, FAR);
 
   const VELOCITY = 50 / 1000;
   const DELTA = (stepTime * VELOCITY) % 360;

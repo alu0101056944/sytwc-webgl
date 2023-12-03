@@ -27,6 +27,7 @@ function draw(context, program, worldData) {
       0);
 
   context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, worldData.getIndexesBuffer());
+
   context.uniformMatrix4fv(projectionUniformLocation, false,
       worldData.getProjectionMatrix());
   context.uniformMatrix4fv(modelViewUniformLocation, false,
@@ -34,6 +35,7 @@ function draw(context, program, worldData) {
 
   context.drawElements(context.TRIANGLES, worldData.getIndexes().length,
       context.UNSIGNED_SHORT, 0);
+
   context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, null);
   context.bindBuffer(context.ARRAY_BUFFER, null);
 }
