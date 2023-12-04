@@ -16,10 +16,10 @@ function createWorldData(context) {
       1.0, 0.0, 0.0, 1.0,
       1.0, 0.0, 0.0, 1.0,
       1.0, 0.0, 0.0, 1.0,
-      0.0, 1.0, 0.0, 1.0,
-      0.0, 1.0, 0.0, 1.0,
-      0.0, 1.0, 0.0, 1.0,
-      0.0, 1.0, 0.0, 1.0
+      0.0, 1.0, 1.0, 1.0,
+      0.0, 1.0, 1.0, 1.0,
+      0.0, 1.0, 1.0, 1.0,
+      0.0, 1.0, 1.0, 1.0
     ]);
   worldData.addIndexes([
       1, 2, 0,
@@ -41,10 +41,12 @@ function createWorldData(context) {
 
 async function createProgram(context) {
   const shaderVertex = new Shader('x-shader/x-vertex');
-  await shaderVertex.create(context, 'shaders/shader.vert');
+  await shaderVertex.create(context, 'shaders/basic/shader.vert');
 
   const shaderFragment = new Shader('x-shader/x-fragment');
-  await shaderFragment.create(context, 'shaders/shader.frag');
+  await shaderFragment.create(context, 'shaders/basic/shader.frag');
 
-  return new Program(shaderVertex, shaderFragment);
+  const program = new ShaderProgram(shaderVertex, shaderFragment)
+  program.create(context);
+  return program;
 }

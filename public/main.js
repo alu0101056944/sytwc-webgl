@@ -7,34 +7,17 @@
 'use strict';
 
 async function main() {
-  // const allCanvas = document.querySelectorAll('canvas');
-  // if (allCanvas.length > 0) {
-  //   throw new Error('HTML webpage does not have any canvas.');
-  // }
-
   const canvas = document.getElementById('webgl-canvas');
   const context = canvas.getContext('webgl2');
-  context.canvas.width = window.innerWidth;
-  context.canvas.height = window.innerHeight;
 
   const program = await createProgram(context);
-  program.initialize(context);
-
   const worldData = createWorldData(context);
 
   let timeSinceLastUpdate = 0;
-  function loop(timestamp) {
+  const loop = (timestamp) => {
     const STEP_TIME = timestamp - timeSinceLastUpdate;
     timeSinceLastUpdate = timestamp;
-
-    const matrixesInfo = {
-        modelMatrix: worldData.getModelMatrix(),
-        viewMatrix: worldData.getViewMatrix(),
-        projectionMatrix: worldData.getProjectionMatrix(),
-        modelViewMatrix: worldData.getModelViewMatrix(),
-      };
-    update(context, matrixesInfo, STEP_TIME);
-
+    update(context, worldData.getMatrixes(), STEP_TIME);
     draw(context, program, worldData);
     window.requestAnimationFrame(loop);
   }

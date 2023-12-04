@@ -64,7 +64,7 @@ class WorldData {
    */
   addPositions(newPositions) {
     this.#bufferTransfer(this.#vertexBuffer, this.#context.ARRAY_BUFFER,
-      newPositions, this.#context.STATIC_DRAW, new Float32Array(newPositions));
+      this.#context.STATIC_DRAW, new Float32Array(newPositions));
     this.#positions.push(...newPositions);
   }
 
@@ -81,7 +81,7 @@ class WorldData {
    */
   addColors(newColors) {
     this.#bufferTransfer(this.#colorsBuffer, this.#context.ARRAY_BUFFER,
-        newColors, this.#context.STATIC_DRAW, new Float32Array(newColors));
+        this.#context.STATIC_DRAW, new Float32Array(newColors));
     this.#colors.push(...newColors);
   }
 
@@ -98,7 +98,7 @@ class WorldData {
    */
   addIndexes(newIndexes) {
     this.#bufferTransfer(this.#indexBuffer, this.#context.ELEMENT_ARRAY_BUFFER,
-        newIndexes, this.#context.STATIC_DRAW, new Uint16Array(newIndexes));
+        this.#context.STATIC_DRAW, new Uint16Array(newIndexes));
     this.#indexes.push(...newIndexes);
   }
 
@@ -110,13 +110,10 @@ class WorldData {
     return this.#indexBuffer;
   }
 
-  #bufferTransfer(buffer, bufferType, data, dataType, array) {
+  #bufferTransfer(buffer, bufferType, dataType, array) {
     if (bufferType !== this.#context.ARRAY_BUFFER &&
         bufferType !== this.#context.ELEMENT_ARRAY_BUFFER) {
       throw new Error('Invalid data type at world data buffer transfer.');
-    }
-    if (data.length === 0) {
-      throw new Error('Empty data received at world data buffer transfer.');
     }
     if (dataType !== this.#context.STATIC_DRAW) {
       throw new Error('Non STATIC_DRAW data type at world data buffer transfer.');
@@ -148,5 +145,14 @@ class WorldData {
 
   getModelViewMatrix() {
     return this.#modelViewMatrix;
+  }
+
+  getMatrixes() {
+    return {
+      modelMatrix: this.getModelMatrix(),
+      viewMatrix: this.getViewMatrix(),
+      projectionMatrix: this.getProjectionMatrix(),
+      modelViewMatrix: this.getModelViewMatrix(),
+    }
   }
 }
